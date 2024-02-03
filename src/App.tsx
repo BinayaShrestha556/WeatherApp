@@ -4,143 +4,134 @@ import SunRiseAndSet from "./components/SunRiseAndSet";
 import Weather_details from "./components/Weather_details";
 import axios from "axios";
 import Footer from "./components/Footer";
-import {RapidApiKey} from './components/apis'
+import { RapidApiKey } from "./components/apis";
+import example1 from './components/json.json'
+import Future from "./components/Future";
 
 export default function App() {
-  const [location, setLocation] = useState({ lat:0, lon:0 });
-  const [data, setData] = useState(  {
-    lat: "37.81021N",
-    lon: "122.42282W",
-    levation: 0,
-    timezone: "America/Los_Angeles",
-    units: "us",
-    current: {
-    icon: "mostly_cloudy",
-      icon_num: 29,
-      summary: "Mostly cloudy",
-      temperature: 50.6,
-      feels_like: 47,
-      wind_chill: 47,
-      dew_point: 46.1,
-      wind: {
-        speed: 5.2,
-        gusts: 10.7,
-        angle: 267,
-        dir: "W"
-      },
-      precipitation: {
-        total: 0,
-        type: "none"
-      },
-      cloud_cover: 65,
-      ozone: 338.49,
-      pressure: 30.17,
-      uv_index: 0,
-      humidity: 89,
-      visibility: 15
-    }
-  });
+  const [loading, setLoading] = useState(false);
+  const [location, setLocation] = useState({ lat: 0, lon: 0 });
+  const [data, setData] = useState<any>(example1);
+
+  const getLocation = () => {
+    return new Promise<void>((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          });
+          resolve();
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  };
+
   const getLocationByIp = async () => {
     const res = await axios.get("https://ipapi.co/json/");
     setLocation({ lat: res.data.latitude, lon: res.data.longitude });
   };
 
   const fetchDataWithLocation = async (lat: number, lon: number) => {
+    setLoading(true);
+
     const options = {
-      method: "GET",
-      url: "https://ai-weather-by-meteosource.p.rapidapi.com/current",
+      method: 'GET',
+      url: 'https://weatherapi-com.p.rapidapi.com/current.json',
       params: {
-        lat: lat.toString(),
-        lon: lon.toString(),
-        timezone: "auto",
-        language: "en",
-        units: "auto",
+        q: `${lat},${lon}`
       },
       headers: {
-        "X-RapidAPI-Key": RapidApiKey, ////rapid api key here
-        "X-RapidAPI-Host": "ai-weather-by-meteosource.p.rapidapi.com",
-      },
+        'X-RapidAPI-Key': RapidApiKey,
+        'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+      }
     };
 
     try {
-      const res = await axios.request(options);
-      setData(res.data);
-      setLocation({lat:lat,lon:lon})
-      console.log(lat,lon)
-     
+      const response = await axios.request(options);
+      setData(response.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
+  const fetchDataWithLocationName = async (city:string) => {
+    setLoading(true);
 
-  const getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          // Set the position
-          await setLocation({
-            lat: position.coords.latitude,
-            lon: position.coords.longitude,
-          });
-          // console.log(location);
-          // Call the function with lat and lon
-          await fetchDataWithLocation(
-            position.coords.latitude,
-            position.coords.longitude
-          );
-          // console.log("location from geo");
-        },
-        async (error) => {
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              alert("Location permission not granted");
-              break;
-            case error.POSITION_UNAVAILABLE:
-              alert("Cannot get location info");
-              break;
-            case error.TIMEOUT:
-              alert("Timed out");
-              break;
-            default:
-              alert("Unknown error occurred");
-              break;
-          }
-          await getLocationByIp();
-          await fetchDataWithLocation(location.lat, location.lon);
-          // console.log("from ip");
-        }
-      );
+    const options = {
+      method: 'GET',
+      url: 'https://weatherapi-com.p.rapidapi.com/current.json',
+      params: {
+        q: city
+      },
+      headers: {
+        'X-RapidAPI-Key': 'fe17bbd52dmsh0ef40c9932ec78bp1f91ebjsn15c9199f0ba8',
+        'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+      }
+    };
+
+    try {
+      const response = await axios.request(options);
+      setData(response.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    getLocation();
-    console.log(data.current)
+    const initializeLocation = async () => {
+      try {
+        await getLocation();
+      } catch (error:any) {
+        console.error("Error obtaining location:", error.message);
+        // Handle errors or fallback to IP-based location
+        await getLocationByIp();
+      }
+    };
+
+    initializeLocation();
   }, []); // Empty dependency array to run only once
 
-  // Rest of your component
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      // Add a delay before fetching data to ensure that the location is set properly
+      setTimeout(async () => {
+        await fetchDataWithLocation(location.lat, location.lon);
+      }, 1000); // Adjust the delay as needed
+    };
 
+    if (location.lat !== 0 && location.lon !== 0) {
+      fetchWeatherData();
+    }
+  }, [location]); // Run when 'location' changes
+// Run when 'data' changes
   return (
     <div className=" w-full  bg-gradient-to-tr to-[#9F025E] from-[#F9C929]">
-    <div className=" w-full m-auto flex h-screen font-inter ">
-      <div className="w-[60%] ">
-        <div>
-          <Navbar lat={location.lat} lon={location.lon} call={fetchDataWithLocation}/>
-        </div>
-        <div className="flex-col flex -mt-12 justify-center px-10 h-full ">
-          <div>
-            <Weather_details data={data.current} />
+      <div className=" w-full m-auto flex flex-col 1000:flex-row 1000:h-screen h-fit font-inter ">
+        <div className="w-full 1000:w-[60%] flex flex-col h-[80vh] 1000:h-screen">
+          <div className="relative top-0 left-0 right-0">
+            <Navbar name={data.location.name} call={fetchDataWithLocationName}/>
+          </div>
+          <div className="flex-col flex flex-grow p-3 justify-center ">
+            <div className="h-full"> {loading?<div className="w-full h-full flex justify-center items-center"><div className="h-20 w-20 bg-white animate-ping duration-100 transition-all ease-in-out"></div></div>:
+            <Weather_details data={data.current} />}
+          </div>
           </div>
         </div>
+        <div className="flex-col w-full flex  1000:w-[40%] backdrop-blur-sm bg-white/15">
+          <SunRiseAndSet  lat={location.lat} lon={location.lon}/>
+          <Future lat={data.location.lat} lon={data.location.lon}/>
+        </div>
       </div>
-      <div className="flex-col flex flex-grow backdrop-blur-sm bg-white/25">
-        <SunRiseAndSet  lat={location.lat} lon={location.lon}/>
+      <div className="w-full m-auto overflow-hidden">
+        <Footer />
       </div>
-    </div>
-    <div className="w-full m-auto overflow-hidden">
-      <Footer/>
-
-    </div>
     </div>
   );
 }

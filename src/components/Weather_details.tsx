@@ -3,102 +3,36 @@ import humidity from "../assets/humidity.png";
 import rain_ from "../assets/rainy.png";
 import uv from "../assets/uv-protection.png";
 import air from "../assets/wind-proof.png";
-import rain from "../assets/New folder/rain.png";
-import snow from "../assets/New folder/snow.png";
-import stars from "../assets/New folder/stars.png";
-import thunder from "../assets/New folder/thunder.png";
-import sun from "../assets/New folder/sun.png";
-import cloud from "../assets/New folder/kisspng-portable-network-graphics-transparency-clip-art-im-8-bit-clouds-transparent-amp-png-clipart-free-do-5d036b54407214.248838691560505172264.png";
 
 export default function Weather_details(props: any) {
   const date = new Date();
-  const getIcon = (icon: number) => {
-    switch (icon) {
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-      case 5:
-        return sun;
-      case 6:
-      case 7:
-      case 8:
-      case 9:
-      case 29:
-      case 30:
-      case 31:
-        return cloud;
-      case 10:
-      case 11:
-      case 12:
-      case 13:
-
-      case 32:
-      case 34:
-        return rain;
-      case 14:
-      case 15:
-      case 33:
-        return thunder;
-      case 16:
-      case 17:
-      case 18:
-      case 15:
-      case 16:
-      case 17:
-      case 18:
-      case 19:
-      case 20:
-      case 21:
-      case 22:
-      case 23:
-      case 24:
-      case 25:
-      case 35:
-      case 36:
-        return snow;
-      case 26:
-      case 27:
-      case 28:
-        return stars;
-
-      default:
-        return sun;
-    }
-  };
+ 
 
   const getDay = () => {
-    switch (date.getDay() + 1) {
-      case 1:
-        return "sunday";
-
-      case 2:
-        return "monday";
-      case 3:
-        return "tuesday";
-      case 4:
-        return "wednesday";
-      case 5:
-        return "thrusday";
-      case 6:
-        return "friday";
-      case 7:
-        return "saturday";
-    }
+    const days=["Sunday","Monday","Tuesday","Wednesday","Thrusday","Friday","Saturday"]
+    return days[date.getDay()]
+    
   };
   return (
-    <div className="w-full flex flex-col -mt-10 text-white">
-      <div className="flex justify-between w-full">
-        <p className="text-[164px] font-[100] flex items-start leading-none">
-          {props.data.temperature}
-          <span className="text-xl font-[400]"> °C</span>
-        </p>
-        <div className="flex-grow flex h-fit justify-center">
-          <img className="w-[50%] " src={getIcon(props.data.icon_num)} alt="" />
+    <div className="w-full flex flex-col  text-white 700:w-[90%] m-auto flex-grow h-full justify-center">
+      <div className="flex my-2 justify-around w-full">
+        <div className="text-[70px] items-center 400:text-[80px] 600:text-[100px] 800:text-[130px] 1000:text-[120px] 1200:text-[140px] 1400:text-[164px]  font-[100] flex leading-none">
+          <p className="flex items-start">
+            {props.data.temp_c}
+            <span className="900:text-xl 1200:text-2xl text-sm font-[400]">
+              {" "}
+              °C
+            </span>
+          </p>
+        </div>
+        
+        <div className="ml-9 flex h-full justify-center items-center backdrop-blur-sm bg-white/10 p-3 rounded-xl">
+         <p className="text-[35px]  items-center 400:text-[40px] max-w-[79%] leading-[90%] 600:text-[50px] 800:text-[60px] 1000:text-[70px] 1200:text-[75px] 1400:text-[80px]">{props.data.condition.text}</p>
+         <div className=""><img className="" src={props.data.condition.icon} alt="" /></div>
         </div>
       </div>
-      <div className="text-xl flex gap-4 font-light">
-        <div className="border-r pr-4">
+      <div className="text-sm 500:text-lg 800:text-xl 1200:text-2xl flex gap-4 font-light">
+        <div className="border-r pr-2  md:pr-4">
           <p>{`${date.getFullYear()}/${
             date.getMonth() + 1
           }/${date.getDate()}`}</p>
@@ -106,56 +40,59 @@ export default function Weather_details(props: any) {
             date.getMinutes() + 1
           }`}</p>
         </div>
-        <p>{props.data.summary}</p>
+        <p className="text-xl">{props.data.condition.text}</p>
       </div>
-      <div className="flex my-16 w-[65%] justify-between text-xl text-white ">
-        <div className="border-r pr-16">
+      <div className="w-full backdrop-blur-sm bg-white/10 mt-10 p-4 [border-radius:-30px]">
+      <div className="flex  mb-10 mt-3 text-lg 800:text-2xl 1200:text-3xl w-full justify-around sm:w-[80%] 1000:w-full m-auto  text-white ">
+        <div className="">
           <div className="flex gap-2 items-center ">
             <img
               src={direction}
-              style={{ transform: `rotate(${props.data.wind.angle - 42}deg)` }}
+              style={{ transform: `rotate(${props.data.wind_degree - 42}deg)` }}
               alt=""
             />{" "}
             wind
           </div>
-          <div className={`font-semibold text-2xl mt-3 `}>
-            {props.data.wind.speed} kmph
+          <div className={`font-semibold  mt-2 `}>
+            {props.data.wind_kph} kmph
           </div>
         </div>
-        <div className="border-r pr-16 ">
+        <div className=" w-[1px] bg-white"></div>
+        <div className="">
           <div className="flex gap-2 items-center">
             <img src={humidity} className={""} alt="" /> humidity
           </div>
-          <div className="font-semibold text-2xl mt-3">
-            {props.data.humidity}%
-          </div>
+          <div className="font-semibold mt-2">{props.data.humidity}%</div>
         </div>
+        <div className=" w-[1px] bg-white"></div>
         <div>
           <div className="flex gap-2 items-center">
             <img src={rain_} className={""} alt="" /> rain
           </div>
-          <div className="font-semibold text-2xl mt-3">
-            {props.data.precipitation.total} mm
+          <div className="font-semibold  mt-2">
+            {props.data.precip_mm} mm
           </div>
         </div>
       </div>
-      <div className=" text-3xl text-white flex w-[65%] justify-between ">
-        <div className="">
-          <span className="flex gap-2 items-center">
-            <img src={air} alt="" />
-            Air Quality
-          </span>
-          <p className="font-semibold mt-3">{props.data.ozone}</p>
+      <div className="  text-white flex text-lg 800:text-2xl 1200:text-3xl  justify-center  ">
+        <div className="sm:w-[60%] 1000:w-[90%] flex w-full justify-around">
+          <div>
+            <span className="flex gap-2 items-center">
+              <img src={air} alt="" />
+              Visibility
+            </span>
+            <p className="font-semibold mt-3">{props.data.vis_km}</p>
+          </div>
+          <div className=" w-[1px] bg-white"></div>
+          <div>
+            <span className="flex gap-2 items-center">
+              <img src={uv} alt="" />
+              UV index{" "}
+            </span>
+            <p className="font-semibold mt-3">{props.data.uv}</p>
+          </div>
         </div>
-        <div className=" w-[1px] bg-white"></div>
-        <div>
-          <span className="flex gap-2 items-center">
-            <img src={uv} alt="" />
-            UV index{" "}
-          </span>
-          <p className="font-semibold mt-3">{props.data.uv_index}</p>
-        </div>
-      </div>
+      </div></div>
     </div>
   );
 }
