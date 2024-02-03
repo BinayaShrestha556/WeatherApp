@@ -16,7 +16,7 @@ export default function Weather_details(props: any) {
   return (
     <div className="w-full flex flex-col  text-white 700:w-[90%] m-auto flex-grow h-full justify-center">
       <div className="flex my-2 justify-around w-full">
-        <div className="text-[70px] items-center 400:text-[80px] 600:text-[100px] 800:text-[130px] 1000:text-[120px] 1200:text-[140px] 1400:text-[164px]  font-[100] flex leading-none">
+        <div className="text-[90px] items-center 400:text-[90px] 600:text-[100px] 800:text-[130px] 1000:text-[120px] 1200:text-[140px] 1400:text-[164px]  font-[100] flex leading-none">
           <p className="flex items-start">
             {props.data.temp_c}
             <span className="900:text-xl 1200:text-2xl text-sm font-[400]">

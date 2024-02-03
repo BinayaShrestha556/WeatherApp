@@ -40,12 +40,13 @@ export default function SunRiseAndSet(props: any) {
             <p className=" mt-5 text-xl">{separateTime(sunRiseSet.sunrise)[0]}:{separateTime(sunRiseSet.sunrise)[1]} AM</p>
           </div>
         </div>
-        <div className="flex flex-col relative -top-9 items-center">
-          <p className="text-xl text-center   my-3 font-light text-nowrap">GOLDEN HOUR</p>
-          <div className=" overflow-hidden">
-            <div className="w-[8rem] bg-purple-200/40  border border-white  rounded-full flex-col flex items-center">
-              <Clock hour={parseInt(separateTime(sunRiseSet.golden)[0])} minute={parseInt(separateTime(sunRiseSet.golden)[1])} second={parseInt(separateTime(sunRiseSet.golden)[2])} />
-              <p className="py-6 text-2xl px-3">{separateTime(sunRiseSet.golden)[0]}:{separateTime(sunRiseSet.golden)[1]} PM</p>
+        <div className="mb-10">
+        
+          <p className="text-xl text-center  my-3 font-light">SUNSET</p>
+          <div className="rounded-full overflow-hidden">
+            <div className="w-[8rem] h-52 bg-purple-200/40  border border-white  rounded-full flex-col flex items-center">
+              <Clock hour={parseInt(separateTime(sunRiseSet.sunset)[0])} minute={parseInt(separateTime(sunRiseSet.sunset)[1])} second={parseInt(separateTime(sunRiseSet.sunset)[2])} />
+              <p className="mt-5 text-xl">{separateTime(sunRiseSet.sunset)[0]}:{separateTime(sunRiseSet.sunset)[1]} PM</p>
             </div>
           </div>
         </div>
