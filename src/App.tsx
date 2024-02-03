@@ -119,7 +119,7 @@ export default function App() {
           <div className="relative top-0 left-0 right-0">
             <Navbar name={data.location.name} call={fetchDataWithLocationName}/>
           </div>
-          <div className="flex-col flex flex-grow p-3 justify-center ">
+          <div className="flex-col mt-10 flex flex-grow p-3 justify-center ">
             <div className="h-full"> {loading?<div className="w-full h-full flex justify-center items-center"><div className="h-20 w-20 bg-white animate-ping duration-100 transition-all ease-in-out"></div></div>:
             <Weather_details data={data.current} />}
           </div>
