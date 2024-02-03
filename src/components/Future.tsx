@@ -2,11 +2,13 @@ import { useEffect,useState } from "react";
 import Tomorrow from "./Tomorrow";
 import axios from 'axios'
 import json from './example weather json.json'
-import { RapidApiKey } from "./apis";
+
 
 
 export default function Future({lon,lat}:{lon:number,lat:number}) {
     const [data,setData]=useState<any>(json)
+  const RapidApiKey=import.meta.env.VITE_REACT_RAPID_API_KEY;
+
    
     const getDate=(data:string)=>{
         const date=new Date(data)

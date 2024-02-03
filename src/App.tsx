@@ -4,11 +4,12 @@ import SunRiseAndSet from "./components/SunRiseAndSet";
 import Weather_details from "./components/Weather_details";
 import axios from "axios";
 import Footer from "./components/Footer";
-import { RapidApiKey } from "./components/apis";
+
 import example1 from './components/json.json'
 import Future from "./components/Future";
 
 export default function App() {
+  const RapidApiKey=import.meta.env.VITE_REACT_RAPID_API_KEY;
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState({ lat: 0, lon: 0 });
   const [data, setData] = useState<any>(example1);
