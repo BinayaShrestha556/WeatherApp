@@ -42,10 +42,10 @@ export default function SunRiseAndSet(props: any) {
         </div>
         <div className="mb-10">
         
-          <p className="text-xl text-center  my-3 font-light">SUNSET</p>
+          <p className="text-xl text-nowrap text-center  my-3 font-light">GOLDEN HOUR</p>
           <div className="rounded-full overflow-hidden">
             <div className="w-[8rem] h-52 bg-purple-200/40  border border-white  rounded-full flex-col flex items-center">
-              <Clock hour={parseInt(separateTime(sunRiseSet.sunset)[0])} minute={parseInt(separateTime(sunRiseSet.sunset)[1])} second={parseInt(separateTime(sunRiseSet.sunset)[2])} />
+              <Clock hour={parseInt(separateTime(sunRiseSet.golden)[0])} minute={parseInt(separateTime(sunRiseSet.golden)[1])} second={parseInt(separateTime(sunRiseSet.golden)[2])} />
               <p className="mt-5 text-xl">{separateTime(sunRiseSet.sunset)[0]}:{separateTime(sunRiseSet.sunset)[1]} PM</p>
             </div>
           </div>
