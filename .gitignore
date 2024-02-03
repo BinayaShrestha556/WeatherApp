@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 apis.ts
 test.js
+.env
