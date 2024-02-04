@@ -42,7 +42,7 @@ export default function SunRiseAndSet(props: any) {
             <p className=" mt-5 text-xl">{separateTime(sunRiseSet.sunrise)[0]}:{separateTime(sunRiseSet.sunrise)[1]} AM</p>
           </div>
         </div>
-        <div className="mb-10">
+        <div className="mb-10 flex flex-col justify-center items-center">
         
           <p className="text-xl text-center  my-3 font-light">Golden Hour</p>
           <div className="rounded-full overflow-hidden">
