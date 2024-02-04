@@ -1,7 +1,7 @@
 
 export default function Tomorrow( {max,min,day,icon,status,avg,humidity,rain=0}:{max:number,min:number,day:string|undefined,icon:string,status:string,avg:number,humidity:number,rain:number}) {
   return (
-    <div className="w-[40%] my-10 h-80 p-3 flex flex-col justify-between text-white bg-white/10 rounded-xl">
+    <div className="w-[40%] my-5 h-80 p-3 flex flex-col justify-between text-white bg-white/10 rounded-xl">
       <p className="text-2xl font-light text-white">{day}</p>
       <div className="w-full  flex-col flex justify-center items-center">
         <img src={icon} alt="" />

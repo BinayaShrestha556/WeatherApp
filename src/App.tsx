@@ -125,8 +125,8 @@ export default function App() {
           </div>
           </div>
         </div>
-        <div className="flex-col w-full flex  1000:w-[40%] backdrop-blur-sm bg-white/15">
-          <SunRiseAndSet  lat={location.lat} lon={location.lon}/>
+        <div className="flex-col w-full flex justify-around 1000:w-[40%] backdrop-blur-sm bg-white/15">
+          <SunRiseAndSet  lat={data.location.lat} lon={data.location.lon}/>
           <Future lat={data.location.lat} lon={data.location.lon}/>
         </div>
       </div>
